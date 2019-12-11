@@ -1,5 +1,5 @@
 %{
-	/* scan.l        by Liang Zhao*/
+	/* scan.l    
 	
 #include <stdio.h>
 #include <stdlib.h>
