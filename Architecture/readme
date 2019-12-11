@@ -1,0 +1,4 @@
+In this assignment, you will implement different versions of matrix multiplication and evaluate
+their performance and cache miss rate. The purpose is to study the locality problem of
+programming, its impact to memory performance and application performance, and how to
+optimize it.
