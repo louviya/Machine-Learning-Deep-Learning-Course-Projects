@@ -18,8 +18,6 @@
  *
  */
 
-
-//LIANG ZHAO 
 //HOMEWORK 3
 
 #include <stdio.h>
