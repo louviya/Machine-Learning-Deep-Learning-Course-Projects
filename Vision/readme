@@ -1,0 +1,23 @@
+Project #1
+Part 1: Camera calibration using linear method (50pts)
+ Implement the conventional camera calibration method introduced in class – estimating camera parameters from the projection matrix 
+using 2D-3D correspondence either in c++ or matlab.
+ Perform experiments on a given data set and estimate the calibration performance in terms of projection error.
+Part 2: Robust camera calibration (50pts)
+As introduced in class, we can use the RANSAC method when there are outliers in the data.
+ Implement the RANSAC method and perform experiments on the given data set and estimate the calibration performance in terms of 
+projection error.
+
+Project #2
+extract 3D information of a human face from its 2 images taken from two different views. 28 facial landmarks are detected and are 
+superimposed on each image. The project includes the following tasks:
+1. Compute the intrinsic parameters W of both cameras respectively using the calibration data attached and the camera calibration 
+procedure you developed for last project. 
+2. Manually establish correspondences between the marked facial landmarks between the two images. To avoid all points being co-planar, 
+you may need to select additional unmarked facial feature points from two images and match them. Indicate what other facial landmarks 
+you select. Given the matched points, use the 8-point method to compute the fundamental matrix F, and then the essential matrix E. 
+Note E is only up to a scale factor.
+3. Derive the relative orientation and translation R and T of the two cameras based on the absolute orientation computed for each 
+camera from step 1.
+4. Produce the rectified left and right images using the rectification procedure introduced in the lecture notes. Write down the 
+rectification process, display the rectified images, and verify the results.
