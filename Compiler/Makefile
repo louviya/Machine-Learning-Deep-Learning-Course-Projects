@@ -1,32 +1,85 @@
+#
+# pcc3 makefile
+#
+#
+
+#
+# use which C compiler?
+#
 CC = gcc
 
-CFLAGS = -g -Wall
-
-LIBS = -lfl
-
+#
+# use which parser generator?
+#
 YACC = bison
 
+#
+# Yacc/Bison flags
+#
+YFLAGS = -d -y
+
+#
+# use which scanner generator?
+#
 LEX = flex
 
-SOURCE = parse.y main.c scan.c tree.c eval.c
+#
+# compile everything for debugger?
+#
+#yes
+CFLAGS = -g
+#no
+#CFLAGS =
 
-OBJECTS = parse.o main.o scan.o tree.o eval.o
+#
+# which back end?
+#
+BACKEND = backend-x86
 
-see: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o see
+PCC3H	= defs.h types.h bucket.h symtab.h $(BACKEND).h tree.h 
 
-y.tab.h parse.c: parse.y
-	$(YACC) -y -t -v -d parse.y
-	mv y.tab.c parse.c
+PCC3OBJ = main.o message.o symtab.o types.o bucket.o utils.o tree.o gram.o scan.o $(BACKEND).o
 
-scan.c: scan.lex	
-	${LEX} -o $@ $<
+# pcc3 rules
+#
+pcc3     : $(PCC3OBJ)
+	$(CC) $(CFLAGS) $(PCC3OBJ) -o pcc3
 
-sacn.o: scan.c y.tab.h
+# dependencies for compiler modules
 
-eval.o: eval.c eval.h
+main.o: main.c defs.h types.h symtab.h
 
-tree.o: tree.c tree.h
+types.o: types.c types.h symtab.h message.h
+
+bucket.o: bucket.c bucket.h
+
+symtab.o: symtab.c types.h symtab.h message.h
+
+$(BACKEND).o: $(BACKEND).c $(BACKEND).h message.h defs.h
+
+message.o: message.c message.h defs.h
+
+utils.o: utils.c symtab.h message.h defs.h $(BACKEND).h
+
+# Custom modules here (tree and encode)
+tree.o: tree.c defs.h tree.h
+
+#
+
+gram.o : gram.y $(PCC3H)
+	$(YACC) $(YFLAGS) gram.y
+	$(CC) $(CFLAGS) -c y.tab.c
+	mv y.tab.o gram.o
+
+scan.o : scan.l gram.o $(PCC3H)
+	$(LEX) scan.l
+	$(CC) $(CFLAGS) -c lex.yy.c
+	rm lex.yy.c
+	mv lex.yy.o scan.o
+
+y.output: gram.y
+	$(YACC) -v -y gram.y
 
 clean:
-	-rm -f *.o parse.c y.output scan.c y.tab.h see
+	-rm -f pcc3 *.o y.tab.h y.output y.tab.c lex.yy.c
+
