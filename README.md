@@ -1,4 +1,4 @@
-# Machine-Learning-Deep-Learning-Sequential-Data-Classification
+# Machine-Learning-Deep-Learning-Course-Projects
 
 
 
